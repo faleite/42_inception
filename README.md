@@ -5,7 +5,7 @@
 ██║██║╚██╗██║██║     ██╔══╝  ██╔═══╝    ██║   ██║██║   ██║██║╚██╗██║
 ██║██║ ╚████║╚██████╗███████╗██║        ██║   ██║╚██████╔╝██║ ╚████║
 ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝╚═╝        ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-								Administering a network of machines.                                                          
+                                Administering a network of machines.                                                          
 ```
 
 *This project aims to broaden your knowledge of system administration by using Docker.\
