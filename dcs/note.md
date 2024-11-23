@@ -26,3 +26,28 @@
   - `apk search package_name` *-> search for a package*
   - `apk update` *-> update the package list*
   - `apk upgrade` *-> upgrade the installed packages*
+
+### Others useful commands
+- `mkdir -p /path/to/directory` *-> create a directory and its parent directories if they don't exist*
+
+### nginx
+- `nginx -t` *-> test the configuration file*
+
+### openssl
+***open source cryptography library that is widely used to create and manage SSL/TLS certificates***
+- O comando `openssl req` é usado para criar e processar pedidos de assinatura de certificado (Certificate Signing Requests - CSR). 
+  - Ele pode ser usado para gerar um novo certificado autoassinado ou para criar um CSR que pode ser enviado a uma autoridade certificadora (CA) para obter um certificado assinado.
+
+Contexto do Dockerfile:
+
+```dockerfile
+openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=login.42.fr/UID=login"
+```
+
+Explicação das flags usadas:
+- `-x509`: Gera um certificado autoassinado em vez de um CSR.
+- `-nodes`: Não criptografa a chave privada.
+- `-out`: Especifica o arquivo de saída para o certificado.
+- `-keyout`: Especifica o arquivo de saída para a chave privada.
+- `-subj`: Define os campos do assunto do certificado (país, estado, localidade, organização, unidade organizacional, nome comum, UID).
+  - `UID`: *-> User ID*
