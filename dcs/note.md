@@ -2,22 +2,31 @@
 
 [reading grademe](https://tuto.grademe.fr/inception/#mariadb)
 
-### Docker
-- Build a container Docker:
-  - `docker build path/to/Dockerfile` *or*
-  - `docker build .` *-> Dockerfile in the current directory*
-  - `docker build -t container_name .` *-> you can give a name to the container*
-- Show the available images on your machine:
-  - `docker image ls`
+## Docker
+
+### Build a container Docker:
+- `docker build path/to/Dockerfile` *or*
+- `docker build .` *-> Dockerfile in the current directory*
+- `docker build -t container_name .` *-> you can give a name to the container*
+
+### Show the available images on your machine:
+- `docker image ls`
 - Initialize a container:
   - `docker run -it container-name` *-> `-it`: open the terminal of the container*
 - Show the running containers:
   - `docker ps`
   - `docker ps -a` *-> show all containers including the stopped ones*
+
+### Stop a container:
+- `docker stop container_id` *-> stop the container*
+- `docker rm container_id` *-> remove the container*
+- `docker rmi image_id` *-> remove the image*
+- `docker rm $(docker ps -aqf status=exited)` *-> remove all the stopped containers*
   
-#### Dockerfile
+### Dockerfile
 1. **FROM**: Imagem base
  - I used the [alpine](https://alpinelinux.org/releases/)
+
 
 ### [Alpine linux](https://docs.alpinelinux.org/user-handbook/0.1a/Working/apk.html)
 - **`apk`**: Alpine Package Keeper

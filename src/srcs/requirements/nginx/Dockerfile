@@ -1,24 +1,18 @@
 FROM alpine:3.19.4
 
 RUN apk update && apk upgrade && \
-	apk add --no-cache nginx openssl vim curl && \
-	mkdir -p /etc/nginx/ssl && \
-	# mkdir -p /etc/nginx/ssl /var/www/html /var/run/nginx && \
-	openssl req -x509 -nodes \
-	-out /etc/nginx/ssl/inception.crt \
-	# -out /etc/nginx/ssl/inception.csr \
-	-keyout /etc/nginx/ssl/inception.key \
-	-subj "/C=PT/ST=Lisbon/L=Lisbon/O=42 School/OU=faaraujo/CN=faaraujo/"
-	# -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=login.42.fr/UID=login"
-	
-RUN mkdir -p /run/nginx
+	apk add --no-cache nginx
 
-COPY conf/html /var/www/html
-	
-# RUN chmod 755 /var/www/html && \
-# 	chown -R www-data:www-data /var/www/html
+# Criar diretório para os arquivos de configuração	
+RUN mkdir -p /var/www/html
 
+# Copiar arquivos de configuração
 COPY conf/nginx.conf /etc/nginx/nginx.conf
-# COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
+COPY conf/default.conf /etc/nginx/conf.d/default.conf
+COPY html/index.html /var/www/html/
 
+# Expor porta 80
+EXPOSE 80
+
+# Comando para iniciar o NGINX em primeiro plano
 CMD ["nginx", "-g", "daemon off;"]
