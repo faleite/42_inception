@@ -1,0 +1,20 @@
+# Ignorar arquivos e diretórios desnecessários
+.git
+.gitignore
+Dockerfile
+README.md
+node_modules
+npm-debug.log
+.env
+
+# Ignorar arquivos de configuração locais
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos de cache
+.cache
