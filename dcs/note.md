@@ -2,89 +2,62 @@
 
 [reading grademe](https://tuto.grademe.fr/inception/#mariadb)
 
-## MariaDB
+## WordPress
 
 ### Estrutura
 ```
-mariadb/
+wordpress/
 ├── .dockerignore
 ├── Dockerfile
+├── tools/
 └── conf/
 ```
+
 ### Docker Workflow
 ```bash
 # Construir a imagem
-docker build -t inception-mariadb .
+docker build -t inception-wordpress .
 
 # Executar o container
-docker run -it --name mariadb inception-mariadb
+docker run -it --name wordpress inception-wordpress
  
 # Para o container e exclui a imagem        
-docker stop mariadb && docker rm $(docker ps -aqf status=exited);
+docker stop wordpress && docker rm $(docker ps -aqf status=exited);
 
 # Logs de erros
-docker logs mariadb
+docker logs wordpress
 ```
 
-### Script de configuração do MariaDB
-```bash
-#!/bin/sh
+### Dockerfile
 
-# This block checks if the directory "/run/mysqld" does not exist, and if not, it creates it and sets ownership to the user and group 'mysql'.
-if [ ! -d "/run/mysqld" ]; then
-	mkdir -p /run/mysqld
-	chown -R mysql:mysql /run/mysqld
-fi
-
-# This block checks if the directory "/var/lib/mysql/mysql" does not exist, and if not, it initializes the MariaDB data directory. It then sets ownership to 'mysql:mysql'.
-if [ ! -d "/var/lib/mysql/mysql" ]; then
-	
-	chown -R mysql:mysql /var/lib/mysql
-
-	# init database
-	mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
-	# This block creates a temporary file using mktemp and checks if it was successfully created.
-	tfile=`mktemp`
-	if [ ! -f "$tfile" ]; then
-		return 1
-	fi
-
-	# https://stackoverflow.com/questions/10299148/mysql-error-1045-28000-access-denied-for-user-billlocalhost-using-passw
- 	# Here, a series of MySQL commands are written to the temporary file. These commands include creating a database, a user, and granting privileges.
-	cat << EOF > $tfile
-USE mysql;
-FLUSH PRIVILEGES;
-
-DELETE FROM	mysql.user WHERE User='';
-DROP DATABASE test;
-DELETE FROM mysql.db WHERE Db='test';
-DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-
-ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PWD';
-
-CREATE DATABASE $WP_DATABASE_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE USER '$WP_DATABASE_USR'@'%' IDENTIFIED by '$WP_DATABASE_PWD';
-GRANT ALL PRIVILEGES ON $WP_DATABASE_NAME.* TO '$WP_DATABASE_USR'@'%';
-
-FLUSH PRIVILEGES;
-EOF
-	# run init.sql
- 	# It runs the MySQL daemon in bootstrap mode using the generated SQL commands in the temporary file and then removes the temporary file.
-	/usr/bin/mysqld --user=mysql --bootstrap < $tfile
-	rm -f $tfile
-fi
-
-# allow remote connections
-# These lines modify the MariaDB server configuration to allow remote connections. 
-# It comments out the 'skip-networking' line and sets the 'bind-address' to '0.0.0.0', meaning it will bind to all available network interfaces.
-
-sed -i "s|skip-networking|# skip-networking|g" /etc/my.cnf.d/mariadb-server.cnf
-sed -i "s|.*bind-address\s*=.*|bind-address=0.0.0.0|g" /etc/my.cnf.d/mariadb-server.cnf
-
-# Finally, it starts the MariaDB server in console mode, using the 'mysql' user.
-
-exec /usr/bin/mysqld --user=mysql --console
+```dockerfile
+RUN adduser -S nginx && addgroup -S nginx
 ```
+- **`adduser -S nginx`**:
+  - **`adduser`**: Comando usado para adicionar um novo usuário ao sistema.
+  - **`-S`**: Esta opção cria um usuário de sistema, que é um usuário sem diretório home e sem shell de login. Usuários de sistema são geralmente usados para executar serviços ou processos específicos.
+  - **`nginx`**: Nome do usuário que está sendo criado. Neste caso, o usuário `nginx` é criado.
+- **`addgroup -S nginx`**:
+  - **`addgroup`**: Comando usado para adicionar um novo grupo ao sistema.
+  - **`-S`**: Esta opção cria um grupo de sistema.
+  - **`nginx`**: Nome do grupo que está sendo criado. Neste caso, o grupo `nginx` é criado.
+
+*Esta linha de commando cria um usuário de sistema chamado `nginx` e um grupo de sistema chamado `nginx`. Esses são usados para executar o serviço Nginx e o PHP-FPM com permissões limitadas, aumentando a segurança do contêiner.*
+
+### Foreground vs Daemon
+
+```dockerfile
+# Start PHP-FPM in the foreground
+CMD ["/usr/sbin/php-fpm8", "-F"]
+```
+- **Foreground**: Mantém o processo principal ativo e associado ao terminal/sessão, essencial para manter o contêiner Docker em execução.
+- **Daemon**: Executa o processo em segundo plano, desassociando-o do terminal/sessão, o que pode causar o encerramento do contêiner se não houver outro processo em foreground.
+
+No contexto do Docker, é crucial que o processo principal do contêiner seja executado em foreground para garantir que o contêiner permaneça ativo enquanto o serviço estiver rodando.
+
+## MariaDB
+
+[...]
 
 ## Docker
 

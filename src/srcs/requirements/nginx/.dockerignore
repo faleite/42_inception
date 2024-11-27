@@ -1,20 +1,56 @@
-# Ignorar arquivos e diretórios desnecessários
+# Git
 .git
 .gitignore
-Dockerfile
-README.md
-node_modules
-npm-debug.log
-.env
 
-# Ignorar arquivos de configuração locais
+# IDE and editor files
+.vscode/
+.idea/
 *.swp
-*.swo
-*.bak
-*.tmp
+*~
 
-# Ignorar arquivos de log
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development and log files
 *.log
+*.backup
+*.bak
 
-# Ignorar arquivos de cache
-.cache
+# Avoid copying unnecessary documentation
+README.md
+CONTRIBUTING.md
+CHANGELOG.md
+
+# Ignore docker-related files in the project
+Dockerfile
+.dockerignore
+
+# Ignore temporary files
+*.tmp
+*.swp
+*~
+
+# Security
+*.pem
+*.key
+*.crt
+
+# Build and dependency directories
+node_modules/
+build/
+dist/
+
+# Unnecessary script files
+*.sh
+!tools/db_config.sh
+
+# Cache and temporary directories
+__pycache__/
+.cache/
+.tmp/
