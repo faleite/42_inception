@@ -2,58 +2,101 @@
 
 [reading grademe](https://tuto.grademe.fr/inception/#mariadb)
 
-## WordPress
 
-### Estrutura
+## Docker Compose
+```yaml
+version: '3.7' # version of docker-compose
+
+services: # services that will be created
+  
+  mariadb: # service name
+    container_name: mariadb
+    networks: # networks that will be connected
+      - inception # network name
+    build: # build context
+      context: requirements/mariadb # path to Dockerfile
+      dockerfile: Dockerfile # Dockerfile name
+      env_file: # environment file
+        - .env # path to environment file
+    volumes: # volumes that will be mounted
+      - mariadb:/var/lib/mysql # volume name and path
+    restart: unless-stopped # restart policy for the container
+    expose: # ports that will be exposed
+      - 3306 # port number
+    environment: # environment variables
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE_NAME: ${MYSQL_DATABASE_NAME}
+      MYSQL_USER_NAME: ${MYSQL_USER_NAME}
+      MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
+      
+  nginx: # service name
+    container_name: nginx
+    volumes: # volumes that will be mounted
+      - wordpress:/var/www/html/wordpress # volume name and path
+    networks: # networks that will be connected
+      - inception # network name
+    depends_on: # services that will be depended on
+      - wordpress # service name
+    build: # build context
+    context: requirements/nginx # path to Dockerfile
+    dockerfile: Dockerfile # Dockerfile name
+    env_file: # environment file
+      - .env # path to environment file
+    ports: # ports that will be exposed
+      - "443:443" # port number
+    restart: on-failure # restart policy for the container
+
+  wordpress: # service name
+    container_name: wordpress
+    env_file: # environment file
+      - .env # path to environment file
+    volumes: # volumes that will be mounted
+      - wordpress:/var/www/html/wordpress # volume name and path
+    networks: # networks that will be connected
+      - inception # network name
+    build: # build context
+    context: requirements/wordpress # path to Dockerfile
+    dockerfile: Dockerfile # Dockerfile name
+    depends_on: # services that will be depended on
+      - mariadb # service name
+    restart: on-failure # restart policy for the container
+    expose: # ports that will be exposed
+      - 9000 # port number
+    environment: # environment variables
+      MYSQL_HOST:  ${MYSQL_HOST}
+      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+      WP_DATABASE_USR: ${WP_DATABASE_USR}
+      WP_DATABASE_PWD: ${WP_DATABASE_PWD}
+      WP_URL: ${WP_URL}
+      WP_TITLE: ${WP_TITLE}
+      WP_ADMIN_USR: ${WP_ADMIN_USR}
+      WP_ADMIN_PWD: ${WP_ADMIN_PWD}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER_USR: ${WP_USER_USR}
+      WP_USER_PWD: ${WP_USER_PWD}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
+
+volumes: # volumes that will be created
+  wordpress: # volume name
+    driver: local # volume driver
+    driver_opts: # volume driver options
+      type: none # volume driver type
+      device: '/home/faaraujo/data/wordpress' # volume driver device
+  mariadb: # volume name
+    driver: local # volume driver
+    driver_opts: # volume driver options
+      type: 'none' # volume driver type
+      device: '/home/faaraujo/data/mariadb' # volume driver device
+      o: bind # volume driver options
+
+networks: # networks that will be created
+  inception: # network name
+    driver: bridge # network driver
 ```
-wordpress/
-├── .dockerignore
-├── Dockerfile
-├── tools/
-└── conf/
-```
 
-### Docker Workflow
-```bash
-# Construir a imagem
-docker build -t inception-wordpress .
+## Wordpress
 
-# Executar o container
-docker run -it --name wordpress inception-wordpress
- 
-# Para o container e exclui a imagem        
-docker stop wordpress && docker rm $(docker ps -aqf status=exited);
-
-# Logs de erros
-docker logs wordpress
-```
-
-### Dockerfile
-
-```dockerfile
-RUN adduser -S nginx && addgroup -S nginx
-```
-- **`adduser -S nginx`**:
-  - **`adduser`**: Comando usado para adicionar um novo usuário ao sistema.
-  - **`-S`**: Esta opção cria um usuário de sistema, que é um usuário sem diretório home e sem shell de login. Usuários de sistema são geralmente usados para executar serviços ou processos específicos.
-  - **`nginx`**: Nome do usuário que está sendo criado. Neste caso, o usuário `nginx` é criado.
-- **`addgroup -S nginx`**:
-  - **`addgroup`**: Comando usado para adicionar um novo grupo ao sistema.
-  - **`-S`**: Esta opção cria um grupo de sistema.
-  - **`nginx`**: Nome do grupo que está sendo criado. Neste caso, o grupo `nginx` é criado.
-
-*Esta linha de commando cria um usuário de sistema chamado `nginx` e um grupo de sistema chamado `nginx`. Esses são usados para executar o serviço Nginx e o PHP-FPM com permissões limitadas, aumentando a segurança do contêiner.*
-
-### Foreground vs Daemon
-
-```dockerfile
-# Start PHP-FPM in the foreground
-CMD ["/usr/sbin/php-fpm8", "-F"]
-```
-- **Foreground**: Mantém o processo principal ativo e associado ao terminal/sessão, essencial para manter o contêiner Docker em execução.
-- **Daemon**: Executa o processo em segundo plano, desassociando-o do terminal/sessão, o que pode causar o encerramento do contêiner se não houver outro processo em foreground.
-
-No contexto do Docker, é crucial que o processo principal do contêiner seja executado em foreground para garantir que o contêiner permaneça ativo enquanto o serviço estiver rodando.
+[...]
 
 ## MariaDB
 

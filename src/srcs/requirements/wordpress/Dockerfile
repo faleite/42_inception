@@ -7,7 +7,11 @@ RUN apk update && apk upgrade && \
     php81-mbstring php81-json php81-session php81-phar php81-cli php81-openssl php81-xml php81-tokenizer \
     php81-xmlwriter php81-simplexml php81-fileinfo php81-xmlreader php81-dom php81-ctype php81-iconv \
     php81-soap php81-sockets php81-ldap php81-pear php81-exif php81-ftp php81-gettext && \
+    ln -s /usr/bin/php81 /usr/bin/php && \
     rm -rf /var/cache/apk/*
+
+# Verify PHP installation
+# RUN php -v
 
 # PHP-FPM configuration
 RUN adduser -S nginx && addgroup -S nginx
@@ -33,4 +37,4 @@ ENTRYPOINT ["sh", "/tmp/wp_config.sh"]
 EXPOSE 9000
 
 # Start PHP-FPM in the foreground
-CMD ["/usr/sbin/php-fpm81", "-F"]
+CMD ["php-fpm81", "-F"]

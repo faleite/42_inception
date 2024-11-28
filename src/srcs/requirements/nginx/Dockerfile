@@ -13,6 +13,7 @@ RUN openssl req -x509 -nodes \
 	-subj "/C=PT/ST=Lisbon/L=Lisbon/O=42 School/OU=faaraujo/CN=faaraujo/"
 
 # NGINX configuration
+RUN mkdir -p /run/nginx
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 

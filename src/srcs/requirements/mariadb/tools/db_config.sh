@@ -27,11 +27,6 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 		return 1
 	fi
 
-# Defina as variáveis de ambiente
-MYSQL_DATABASE_NAME=${MYSQL_DATABASE_NAME:-wordpress}
-MYSQL_USER_NAME=${MYSQL_USER_NAME:-wp_user}
-MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD:-wp_password}
-
 	# Escrever comandos SQL no arquivo temporário
 	cat << EOF > $tmp_file
 USE mysql;
