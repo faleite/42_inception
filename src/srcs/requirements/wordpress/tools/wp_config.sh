@@ -10,6 +10,26 @@ if [ ! -f "/var/www/html/index.html" ]; then
     mv /tmp/index.html /var/www/html/index.html
 fi
 
+# Move style.css if it doesn't exist
+if [ ! -f "/var/www/html/style.css" ]; then
+    mv /tmp/style.css /var/www/html/style.css
+fi
+
+# Move mediaqueries.css if it doesn't exist
+if [ ! -f "/var/www/html/mediaqueries.css" ]; then
+    mv /tmp/mediaqueries.css /var/www/html/mediaqueries.css
+fi
+
+# Move script.js if it doesn't exist
+if [ ! -f "/var/www/html/script.js" ]; then
+    mv /tmp/script.js /var/www/html/script.js
+fi
+
+# Move assets directory if it doesn't exist
+if [ ! -d "/var/www/html/assets" ]; then
+    mv /tmp/assets /var/www/html/assets
+fi
+
 # Check if WordPress is already installed
 if [ ! -f "/var/www/html/wordpress/wp-config.php" ]; then
     echo "Installing WordPress..."

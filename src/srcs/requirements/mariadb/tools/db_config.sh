@@ -45,7 +45,7 @@ GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE_NAME}\`.* TO '${MYSQL_USER_NAME}'@'%'
 
 FLUSH PRIVILEGES;
 EOF
-	# Executar comandos SQL
+	# Executar comandos SQL (Você tambem pode usar o comando mysql -e "SQL" para executar comandos SQL)
 	/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 < $tmp_file
 	rm -f $tmp_file
 fi

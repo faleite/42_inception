@@ -18,8 +18,12 @@ RUN adduser -S nginx && addgroup -S nginx
 COPY conf/php-fpm.conf /etc/php81/php-fpm.conf
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
-# Copy a static HTML file for testing
+# Copy static files for testing
 COPY conf/index.html /tmp/index.html
+COPY conf/style.css /tmp/style.css
+COPY conf/mediaqueries.css /tmp/mediaqueries.css
+COPY conf/script.js /tmp/script.js
+COPY conf/assets /tmp/assets
 
 # Install WP-CLI
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \

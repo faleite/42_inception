@@ -6,8 +6,8 @@ RUN apk update && apk upgrade && \
 	mkdir -p /etc/nginx/ssl
 
 # Build a certificate and key for SSL
-# RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-RUN openssl req -x509 -nodes \
+# RUN openssl req -x509 -nodes \
+RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
 	-out /etc/nginx/ssl/inception.crt \
 	-keyout /etc/nginx/ssl/inception.key \
 	-subj "/C=PT/ST=Lisbon/L=Lisbon/O=42 School/OU=faaraujo/CN=faaraujo/"
