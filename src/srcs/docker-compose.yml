@@ -61,13 +61,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/faleite/data/wordpress
+      device: /home/faaraujo/data/wordpress
   mariadb:
     driver: local
     driver_opts:
       type: 'none'
       o: bind
-      device: /home/faleite/data/mariadb
+      device: /home/faaraujo/data/mariadb
 
 networks:
   inception:
