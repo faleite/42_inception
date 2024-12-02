@@ -10,9 +10,6 @@ RUN apk update && apk upgrade && \
     ln -s /usr/bin/php81 /usr/bin/php && \
     rm -rf /var/cache/apk/*
 
-# Verify PHP installation
-# RUN php -v
-
 # PHP-FPM configuration
 RUN adduser -S nginx && addgroup -S nginx
 COPY conf/php-fpm.conf /etc/php81/php-fpm.conf
@@ -31,7 +28,7 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
     mv wp-cli.phar /usr/bin/wp
 
 # Set the working directory for WordPress
-WORKDIR /var/www/html/wordpress
+WORKDIR /var/www/html
 
 # Copy the configuration script
 COPY tools/wp_config.sh /tmp/wp_config.sh

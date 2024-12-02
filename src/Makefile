@@ -40,6 +40,15 @@ ps:
 logs:
 	@ $(COMP) -f $(FILE) logs -f
 
+volume:
+	@ docker volume ls
+
+inspect_db:
+	@ docker inspect srcs_mariadb
+
+inspect_wp:
+	@ docker inspect srcs_wordpress
+
 domain:
 	@ echo "127.0.0.1 faaraujo.42.fr" >> /etc/hosts
 
