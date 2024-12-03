@@ -37,6 +37,9 @@ restart:
 ps:
 	@ $(COMP) -f $(FILE) ps
 
+images:
+	@ docker images
+
 logs:
 	@ $(COMP) -f $(FILE) logs -f
 
@@ -50,16 +53,16 @@ inspect_wp:
 	@ docker inspect srcs_wordpress
 
 remove_all:
-	@ docker stop $(docker ps -qa) 2>/dev/null; \
-	docker rm $(docker ps -qa) 2>/dev/null; \
-	docker rmi -f $(docker images -qa) 2>/dev/null; \
-	docker volume rm $(docker volume ls -q) 2>/dev/null; \
-	docker network rm $(docker network ls -q) 2>/dev/null
+	@ docker stop $(shell docker ps -qa) 2>/dev/null; \
+	docker rm $(shell docker ps -qa) 2>/dev/null; \
+	docker rmi -f $(shell docker images -qa) 2>/dev/null; \
+	docker volume rm $(shell docker volume ls -q) 2>/dev/null; \
+	docker network rm $(shell docker network ls -q) 2>/dev/null
 
 domain:
 	@ echo "127.0.0.1 faaraujo.42.fr" >> /etc/hosts
 
-.PHONY: all inception prune down start stop restart ps logs domain
+.PHONY: all inception prune down start stop restart ps logs domain remove_all inspect_db inspect_wp volume images
 
 # COLORS
 CLR_RESET	= \033[0m

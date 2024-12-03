@@ -11,7 +11,7 @@ RUN apk update && apk upgrade && \
     rm -rf /var/cache/apk/*
 
 # PHP-FPM configuration
-RUN adduser -S nginx && addgroup -S nginx
+RUN adduser -S -G www-data www-data
 COPY conf/php-fpm.conf /etc/php81/php-fpm.conf
 COPY conf/www.conf /etc/php81/php-fpm.d/www.conf
 
