@@ -49,6 +49,13 @@ inspect_db:
 inspect_wp:
 	@ docker inspect srcs_wordpress
 
+remove_all:
+	@ docker stop $(docker ps -qa) 2>/dev/null; \
+	docker rm $(docker ps -qa) 2>/dev/null; \
+	docker rmi -f $(docker images -qa) 2>/dev/null; \
+	docker volume rm $(docker volume ls -q) 2>/dev/null; \
+	docker network rm $(docker network ls -q) 2>/dev/null
+
 domain:
 	@ echo "127.0.0.1 faaraujo.42.fr" >> /etc/hosts
 
