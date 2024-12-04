@@ -19,6 +19,7 @@ You will virtualize several Docker images, creating them in your new personal vi
 
 * **[Mandatory part](#mandatory-part)**
 * **[Study resources](#study-resources)**
+* **[Workflow](https://github.com/users/faleite/projects/1)**
 
 ### Mandatory part
 <details>
@@ -247,6 +248,4 @@ O projeto Inception, como descrito nas fontes fornecidas, tem como objetivo prin
 </details>
 
 ### Study resources
-Article / Forum | Tutorial | Video | Documentation
-:------:|:--------:|:-----:|:-------------:
-[grademe](https://tuto.grademe.fr/inception/) | [notebookLM](https://notebooklm.google.com/notebook/f7b3496f-d31d-493d-9e3b-67c4013256e7?_gl=1*12ihuzq*_ga*MTI1NTE1MTcxMS4xNzMxOTQ1OTcy*_ga_W0LDH41ZCB*MTczMTk0NTk3Mi4xLjEuMTczMTk0NjU0OC4wLjAuMA..&original_referer=https:%2F%2Fnotebooklm.google%23&pli=1) | [upsum]() | [upsum]()
+- [grademe](https://tuto.grademe.fr/inception/)
