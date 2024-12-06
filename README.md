@@ -14,8 +14,7 @@ You will virtualize several Docker images, creating them in your new personal vi
 
  Skills | Grade |
 :------:|:-----:|
-[**Rigor**] [**Network & system administration**] [**Unix**]  | *Subscribed* |
-<!-- **:white_check_mark: 100%** -->
+[**Rigor**] [**Network & system administration**] [**Unix**]  | **:white_check_mark: 125%**
 
 ## Index
 * **[Mandatory part](#mandatory-part)**
