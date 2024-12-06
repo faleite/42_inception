@@ -36,10 +36,6 @@ You will virtualize several Docker images, creating them in your new personal vi
 ```bash
 .
 ├── Makefile
-├── secrets
-│   ├── credentials.txt
-│   ├── db_password.txt
-│   └── db_root_password.txt
 └── srcs
     ├── .env
     ├── docker-compose.yml
